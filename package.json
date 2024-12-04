@@ -43,10 +43,8 @@
     }
   },
   "lint-staged": {
-    "*.(ts|tsx)": [
-      "npm run lint:write",
-      "git add"
-    ]
+    "*.{js,jsx,ts,tsx}": "npx eslint",
+    "*.{js,jsx,ts,tsx,html,css}": "npx prettier --check"
   },
   "browserslist": {
     "production": [
