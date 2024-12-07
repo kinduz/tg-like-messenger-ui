@@ -1,0 +1,19 @@
+{
+    "titleApp": "Rocket Chat",
+
+    "auth": {
+        "text": "Are you ready to flight?",
+        "submit": "Submit"
+    },
+
+    "validation": {
+        "required": "This field is required"
+    },
+
+    "form": {
+        "label": {
+            "email": "Enter the email",
+            "password": "Enter the password"
+        }
+    }
+}
