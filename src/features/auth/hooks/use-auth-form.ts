@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 
 const defaultValues = {
-  login: '',
+  email: '',
   password: '',
   code: '',
 };
@@ -11,5 +11,13 @@ export const useAuthForm = () => {
     defaultValues,
   });
 
-  return { methodsForm };
+  const { handleSubmit } = methodsForm;
+
+  const handleSubmitForm = () => {
+    return handleSubmit((data) => {
+      console.log(data);
+    })();
+  };
+
+  return { methodsForm, handleSubmitForm };
 };
