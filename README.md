@@ -1,6 +1,10 @@
 # tg-like-messenger-ui
 
-**tg-like-messenger** – это современный мессенджер, вдохновленный дизайном и функциональностью Telegram. Интерфейс приложения реализован с использованием [TelegramUI](https://tgui.xelene.me/?path=/docs/getting-started--documentation).
+<p align="center">
+  <img src="https://github.com/kinduz/tg-like-messenger-ui/blob/main/src/features/auth/assets/rocket_black.gif" alt="Rocket" width="160" />
+</p>
+
+**Rocket Chat** – это современный мессенджер, вдохновленный дизайном и функциональностью Telegram. Интерфейс приложения реализован с использованием [TelegramUI](https://tgui.xelene.me/?path=/docs/getting-started--documentation).
 
 ---
 
