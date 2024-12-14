@@ -1,15 +1,12 @@
 import { FormProvider } from 'react-hook-form';
 import { t } from 'i18next';
 import { useAuthForm, useGetGif } from '../hooks';
-import { AuthImageWrapper, AuthWrapper } from './auth.styled';
-import { Button, FormWrapper, Input, Theme, useTheme } from '@/shared';
+import { AuthImageWrapper, AuthWrapper, TextWrapper, UnderTitleText } from './auth.styled';
+import { Button, Flex, FormWrapper, LargeTitle, PhoneInputWithController, Theme } from '@/shared';
 
 export const Auth = () => {
-  const { toggleTheme } = useTheme();
-
   const rocketGif = useGetGif(Theme.DARK);
 
-  // eslint-disable-next-line no-unused-vars
   const { methodsForm, handleSubmitForm } = useAuthForm();
 
   return (
@@ -18,16 +15,22 @@ export const Auth = () => {
         <img src={rocketGif} alt="Rocket gif" />
       </AuthImageWrapper>
       <FormProvider {...methodsForm}>
-        <FormWrapper width={360} vertical align="center">
-          <Input placeholder={t('form.label.email')} />
-          <Input placeholder={t('form.label.password')} />
-          <Button
-            onClick={toggleTheme}
-            style={{ marginTop: 20 }}
-            mode="gray"
-            value={t('auth.submit')}
-          />
-        </FormWrapper>
+        <Flex vertical gap={32} align="center">
+          <TextWrapper vertical gap={12} align="center">
+            <LargeTitle weight="1" value="Rocket Chat" />
+            <UnderTitleText value="Введите ваш номер телефона (код страны подставится автоматически, но вы также можете выбрать его вруную)" />
+          </TextWrapper>
+          <FormWrapper width={360} gap={8} vertical align="center" justify="center">
+            <PhoneInputWithController name="phone" />
+            <Button
+              onClick={handleSubmitForm}
+              style={{ marginTop: 20 }}
+              size="l"
+              mode="gray"
+              value={t('auth.submit')}
+            />
+          </FormWrapper>
+        </Flex>
       </FormProvider>
     </AuthWrapper>
   );

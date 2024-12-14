@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Flex } from '../ui';
+import { Flex, Headline } from '../ui';
 
 type TFormWrapperProps = {
   width: number;
@@ -10,4 +10,11 @@ export const FormWrapper = styled(Flex)<TFormWrapperProps>`
   > div {
     width: 100%;
   }
+`;
+
+export const ErrorMessage = styled(Headline)`
+  font-size: 14px;
+  color: red;
+  padding-left: 8px;
+  font-weight: 400;
 `;
