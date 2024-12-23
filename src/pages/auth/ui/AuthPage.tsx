@@ -1,4 +1,4 @@
-import { Auth } from '@/features/auth/ui/auth';
+import { Auth } from '@/features';
 
 const AuthPage = () => {
   return <Auth />;

@@ -7,4 +7,6 @@ export const COLORS = {
 
   textDark: '#000',
   textLight: '#fff',
+
+  mainBgColorDark: '#0E1623',
 };

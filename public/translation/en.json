@@ -15,5 +15,11 @@
             "email": "Enter the email",
             "password": "Enter the password"
         }
+    },
+
+    "common": {
+        "placeholders": {
+            "search": "Search"
+        }
     }
 }

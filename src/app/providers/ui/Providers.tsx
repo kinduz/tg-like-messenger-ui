@@ -14,7 +14,7 @@ export const Providers: FC<PropsWithChildren> = ({ children }) => {
       <Suspense fallback={<div />}>
         <BrowserRouter>
           <QueryClientProvider client={queryClient}>
-            <AppRoot appearance={theme} platform="base">
+            <AppRoot style={{ height: '100%' }} appearance={theme} platform="base">
               {children}
             </AppRoot>
           </QueryClientProvider>
