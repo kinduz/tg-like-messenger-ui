@@ -2,12 +2,13 @@
     "titleApp": "Rocket Chat",
 
     "auth": {
-        "text": "Are you ready to flight?",
+        "phoneNumberText": "Enter your phone number (the country code will be inserted automatically, but you can also select it manually)",
         "submit": "Submit"
     },
 
     "validation": {
-        "required": "This field is required"
+        "required": "This field is required",
+        "maxLength": "The allowed number of characters has been exceeded"
     },
 
     "form": {

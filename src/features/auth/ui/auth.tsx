@@ -18,12 +18,12 @@ export const Auth = () => {
         <Flex vertical gap={32} align="center">
           <TextWrapper vertical gap={12} align="center">
             <LargeTitle weight="1" value="Rocket Chat" />
-            <UnderTitleText value="Введите ваш номер телефона (код страны подставится автоматически, но вы также можете выбрать его вруную)" />
+            <UnderTitleText value={t('auth.phoneNumberText')} />
           </TextWrapper>
           <FormWrapper width={360} gap={8} vertical align="center" justify="center">
-            <PhoneInputWithController name="phone" />
+            <PhoneInputWithController name="phoneNumber" />
             <Button
-              onClick={handleSubmitForm}
+              onClick={() => handleSubmitForm()}
               style={{ marginTop: 20 }}
               size="l"
               mode="gray"

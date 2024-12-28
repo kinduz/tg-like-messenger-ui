@@ -1,7 +1,10 @@
 import * as z from 'zod';
+// import { t } from 'i18next';
+import { stringRequired } from '@/shared';
 
 export const authSchema = z.object({
-  phone: z.string().min(1, 'Введите номер телефона'),
+  phoneNumber: stringRequired(),
+  // otp: stringRequired().max(6, t('validations.maxLength')),
 });
 
 export type AuthUpSchemaType = z.infer<typeof authSchema>;
