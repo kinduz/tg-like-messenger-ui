@@ -1,37 +1,41 @@
-import { FormProvider } from 'react-hook-form';
-import { t } from 'i18next';
 import { useAuthForm, useGetGif } from '../hooks';
-import { AuthImageWrapper, AuthWrapper, TextWrapper, UnderTitleText } from './auth.styled';
-import { Button, Flex, FormWrapper, LargeTitle, PhoneInputWithController, Theme } from '@/shared';
+import { AuthImageWrapper, AuthWrapper } from './auth.styled';
+import { AuthFormFirstStep, AuthFormSecondStep } from './auth-form';
+import { useTheme } from '@/shared';
 
 export const Auth = () => {
-  const rocketGif = useGetGif(Theme.DARK);
+  const { theme } = useTheme();
+  const {
+    currentFormStep,
+    isFormLoading,
+    methodsFirstStepAuthForm,
+    methodsSecondStepAuthForm,
+    handleSubmitFirstStepAuthForm,
+    handleSubmitSecondStepAuthForm,
+  } = useAuthForm();
 
-  const { methodsForm, handleSubmitForm } = useAuthForm();
+  const currentFormContent =
+    currentFormStep === 0 ? (
+      <AuthFormFirstStep
+        isFormLoading={isFormLoading}
+        handleSubmitForm={handleSubmitFirstStepAuthForm}
+        formMethods={methodsFirstStepAuthForm}
+      />
+    ) : (
+      <AuthFormSecondStep
+        handleSubmitForm={handleSubmitSecondStepAuthForm}
+        formMethods={methodsSecondStepAuthForm}
+      />
+    );
+
+  const formGif = useGetGif(theme, currentFormStep);
 
   return (
     <AuthWrapper align="center" justify="center" vertical gap={24}>
       <AuthImageWrapper>
-        <img src={rocketGif} alt="Rocket gif" />
+        <img src={formGif} alt="FormGif" />
       </AuthImageWrapper>
-      <FormProvider {...methodsForm}>
-        <Flex vertical gap={32} align="center">
-          <TextWrapper vertical gap={12} align="center">
-            <LargeTitle weight="1" value="Rocket Chat" />
-            <UnderTitleText value={t('auth.phoneNumberText')} />
-          </TextWrapper>
-          <FormWrapper width={360} gap={8} vertical align="center" justify="center">
-            <PhoneInputWithController name="phoneNumber" />
-            <Button
-              onClick={() => handleSubmitForm()}
-              style={{ marginTop: 20 }}
-              size="l"
-              mode="gray"
-              value={t('auth.submit')}
-            />
-          </FormWrapper>
-        </Flex>
-      </FormProvider>
+      {currentFormContent}
     </AuthWrapper>
   );
 };

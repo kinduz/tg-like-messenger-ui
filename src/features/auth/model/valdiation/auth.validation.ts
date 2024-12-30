@@ -1,10 +1,14 @@
 import * as z from 'zod';
-// import { t } from 'i18next';
+import { t } from 'i18next';
 import { stringRequired } from '@/shared';
 
-export const authSchema = z.object({
+export const authSchemaFirstStep = z.object({
   phoneNumber: stringRequired(),
-  // otp: stringRequired().max(6, t('validations.maxLength')),
 });
 
-export type AuthUpSchemaType = z.infer<typeof authSchema>;
+export const authSchemaSecondStep = z.object({
+  otp: stringRequired().max(6, t('validations.required')),
+});
+
+export type AuthSchemaFirstStepType = z.infer<typeof authSchemaFirstStep>;
+export type AuthSchemaSecondStepType = z.infer<typeof authSchemaSecondStep>;

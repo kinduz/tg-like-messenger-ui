@@ -2,13 +2,16 @@
     "titleApp": "Rocket Chat",
 
     "auth": {
+        "firstStep": "Sign In to Rocket chat",
         "phoneNumberText": "Enter your phone number (the country code will be inserted automatically, but you can also select it manually)",
-        "submit": "Submit"
+
+        "secondStep": "Сonfirmation code",
+        "otpText": "Enter the code sent to the phone number provided earlier"
     },
 
     "validation": {
-        "required": "This field is required",
-        "maxLength": "The allowed number of characters has been exceeded"
+        "required": "This field is required.",
+        "maxLength": "The allowed number of characters has been exceeded."
     },
 
     "form": {
@@ -22,5 +25,10 @@
         "placeholders": {
             "search": "Search"
         }
+    },
+
+    "button": {
+        "next": "Next",
+        "submit": "Submit"
     }
 }

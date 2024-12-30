@@ -30,6 +30,13 @@
   height: 100vh;
 }
 
+.ant-otp-input, .ant-otp-input:hover, .ant-otp-input:focus {
+  font-size: 20px;
+  background: var(--bg-main);
+  color: #fff;
+  border: 1px solid #fff;
+}
+
 body {
   margin: 0;
   padding: 0;

@@ -1,35 +1,73 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { authSchema, AuthUpSchemaType } from '../model';
+import { useMutation } from 'react-query';
 import { authService } from '@/shared';
+import {
+  authSchemaFirstStep,
+  AuthSchemaFirstStepType,
+  authSchemaSecondStep,
+  AuthSchemaSecondStepType,
+} from '../model';
 
-const defaultValues = {
+const defaultValuesFirstStep = {
   phoneNumber: '',
-  code: '',
+};
+
+const defaultValuesSecondStep = {
+  otp: '',
 };
 
 export const useAuthForm = () => {
   const [currentFormStep, setCurrentFormStep] = useState<number>(0);
 
-  const methodsForm = useForm<AuthUpSchemaType>({
-    defaultValues,
+  const methodsFirstStepAuthForm = useForm<AuthSchemaFirstStepType>({
+    defaultValues: defaultValuesFirstStep,
     mode: 'onSubmit',
-    resolver: zodResolver(authSchema),
+    resolver: zodResolver(authSchemaFirstStep),
   });
 
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = methodsForm;
-  console.log(errors);
+  const methodsSecondStepAuthForm = useForm<AuthSchemaSecondStepType>({
+    defaultValues: defaultValuesSecondStep,
+    mode: 'onSubmit',
+    resolver: zodResolver(authSchemaSecondStep),
+  });
 
-  const handleSubmitForm = () => {
-    return handleSubmit(async (data) => {
-      console.log(data);
-      await authService.startLoginByPhoneNumber(data);
+  const { handleSubmit: handleSubmitFirstStep } = methodsFirstStepAuthForm;
+  const { handleSubmit: handleSubmitSecondStep } = methodsSecondStepAuthForm;
+
+  const { mutate: firstStepAuthFormMutation, isLoading: isFirstStepAuthFormMutationLoading } =
+    useMutation({
+      mutationFn: async (data: AuthSchemaFirstStepType) => {
+        await authService.startLoginByPhoneNumber(data);
+      },
+      onSuccess: () => {
+        setCurrentFormStep((prev) => prev + 1);
+      },
+    });
+
+  const handleSubmitFirstStepAuthForm = () => {
+    return handleSubmitFirstStep(async (data) => {
+      firstStepAuthFormMutation(data);
     })();
   };
 
-  return { methodsForm, handleSubmitForm, currentFormStep, setCurrentFormStep };
+  const handleSubmitSecondStepAuthForm = () => {
+    return handleSubmitSecondStep(async (data) => {
+      console.log(data);
+      return null;
+    });
+  };
+
+  const isFormLoading = isFirstStepAuthFormMutationLoading;
+
+  return {
+    methodsFirstStepAuthForm,
+    methodsSecondStepAuthForm,
+    handleSubmitFirstStepAuthForm,
+    handleSubmitSecondStepAuthForm,
+    currentFormStep,
+    setCurrentFormStep,
+    isFormLoading,
+  };
 };

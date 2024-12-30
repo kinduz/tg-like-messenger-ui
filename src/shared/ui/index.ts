@@ -4,5 +4,6 @@ export * from './flex';
 export * from './typography';
 export * from './button';
 export * from './cell';
-export * from './chat-cell';
+export * from './chat-info';
 export * from './resizable-panels';
+export * from './notification';

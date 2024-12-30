@@ -8,7 +8,7 @@ export class AuthService extends BaseService {
   protected url = '/auth';
 
   async startLoginByPhoneNumber(data: TStartLoginByPhoneNumberBody) {
-    return super.post(`${this.url}/start-login`, data);
+    return super.post(`${this.url}/send-otp`, data);
   }
 }
 

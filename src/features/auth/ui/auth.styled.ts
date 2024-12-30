@@ -11,7 +11,7 @@ export const AuthImageWrapper = styled('div')`
   border: 1px solid rgba(47, 47, 47, 0.15);
 
   img {
-    width: 200px;
+    width: 256px;
   }
 
   @media (max-width: 500px) {

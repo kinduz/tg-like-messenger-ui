@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { IoMdSearch } from 'react-icons/io';
 import { t } from 'i18next';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { ChatCell, Input } from '@/shared';
+import { ChatInfo, Input } from '@/shared';
 import { SearchBlockStyled, SidebarLayout } from './Sidebar.styled';
 
 export const Sidebar = () => {
@@ -18,9 +18,9 @@ export const Sidebar = () => {
       </SearchBlockStyled>
       {array.map((_, index) => (
         <NavLink key={index} to={`/chat/${index}`}>
-          <ChatCell
+          <ChatInfo
             before={<Avatar size={48} />}
-            subtitle={`Сообщение от человека с номером ${index + 20}`}
+            subtitle={`Сообщение от пользователя с номером ${index + 20}`}
             chatName="Марк"
           />
         </NavLink>
