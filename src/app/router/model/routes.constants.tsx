@@ -1,30 +1,35 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 import { RoutesModel } from './routes.model';
 import { AuthLazy, ChatLazy, ChatNotSelectedLazy, MainPageLazy } from '@/pages';
+import PrivateRoute from '../ui/PrivateRoute';
+import PublicRoute from '../ui/PublicRoute';
 
-export const PublicRoutes: RouteObject[] = [
+export const Routes: RouteObject[] = [
   {
-    path: RoutesModel.auth,
-    element: <AuthLazy />,
-  },
-  {
-    path: '*',
-    element: <Navigate to={'/auth'} />,
-  },
-];
-
-export const PrivateRoutes: RouteObject[] = [
-  {
-    path: '/',
-    element: <MainPageLazy />,
+    element: <PublicRoute />,
     children: [
       {
-        path: '',
-        element: <ChatNotSelectedLazy />,
+        path: RoutesModel.auth,
+        element: <AuthLazy />,
       },
+    ],
+  },
+  {
+    element: <PrivateRoute />,
+    children: [
       {
-        path: RoutesModel.chat_id,
-        element: <ChatLazy />,
+        path: '/',
+        element: <MainPageLazy />,
+        children: [
+          {
+            path: '',
+            element: <ChatNotSelectedLazy />,
+          },
+          {
+            path: RoutesModel.chat_id,
+            element: <ChatLazy />,
+          },
+        ],
       },
     ],
   },

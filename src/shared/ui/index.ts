@@ -7,3 +7,5 @@ export * from './cell';
 export * from './chat-info';
 export * from './resizable-panels';
 export * from './notification';
+export * from './icon-button';
+export * from './spin';

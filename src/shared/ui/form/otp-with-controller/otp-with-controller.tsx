@@ -7,15 +7,23 @@ type TOtpWithControllerProps = TOtpProps & {
   handleSubmit?: () => void;
 };
 
-export const OtpWithController: FC<TOtpWithControllerProps> = ({ length, name, ...otherProps }) => {
+export const OtpWithController: FC<TOtpWithControllerProps> = ({
+  length,
+  name,
+  handleSubmit,
+  ...otherProps
+}) => {
   const {
     control,
+    setValue,
     formState: { errors },
   } = useFormContext();
 
   const onChange: TOtpProps['onChange'] = (otp: string) => {
-    if (otp.length === length) {
-      console.log('send');
+    setValue(name, otp);
+
+    if (otp.length === length && !!handleSubmit) {
+      handleSubmit();
     }
   };
 

@@ -29,6 +29,7 @@
     ],
     "root": true,
     "rules": {
+        "import/no-cycle": "off",
         "@typescript-eslint/ban-ts-comment": "off",
         "no-shadow": "off",
         "import/no-unresolved": "off",

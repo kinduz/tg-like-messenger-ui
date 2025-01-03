@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useMutation } from 'react-query';
 import { authService } from '@/shared';
 import {
@@ -9,6 +9,9 @@ import {
   authSchemaSecondStep,
   AuthSchemaSecondStepType,
 } from '../model';
+import { AuthFormFirstStep, AuthFormSecondStep } from '../ui/auth-form';
+
+const INITIAL_STEP = 0;
 
 const defaultValuesFirstStep = {
   phoneNumber: '',
@@ -19,7 +22,7 @@ const defaultValuesSecondStep = {
 };
 
 export const useAuthForm = () => {
-  const [currentFormStep, setCurrentFormStep] = useState<number>(0);
+  const [currentFormStep, setCurrentFormStep] = useState<number>(INITIAL_STEP);
 
   const methodsFirstStepAuthForm = useForm<AuthSchemaFirstStepType>({
     defaultValues: defaultValuesFirstStep,
@@ -33,8 +36,20 @@ export const useAuthForm = () => {
     resolver: zodResolver(authSchemaSecondStep),
   });
 
-  const { handleSubmit: handleSubmitFirstStep } = methodsFirstStepAuthForm;
+  const {
+    handleSubmit: handleSubmitFirstStep,
+    watch: watchFirstStepForm,
+    setValue: setFirstStepValue,
+  } = methodsFirstStepAuthForm;
+
+  const { phoneNumber } = watchFirstStepForm();
+
   const { handleSubmit: handleSubmitSecondStep } = methodsSecondStepAuthForm;
+
+  const returnToFirstStepWithSavingPhone = () => {
+    setCurrentFormStep(INITIAL_STEP);
+    setFirstStepValue('phoneNumber', phoneNumber);
+  };
 
   const { mutate: firstStepAuthFormMutation, isLoading: isFirstStepAuthFormMutationLoading } =
     useMutation({
@@ -46,6 +61,16 @@ export const useAuthForm = () => {
       },
     });
 
+  const { mutate: secondStepAuthFormMutation, isLoading: isSecondStepAuthFormMutationLoading } =
+    useMutation({
+      mutationFn: async (data: AuthSchemaSecondStepType) => {
+        await authService.sendOtp({ ...data, phoneNumber });
+      },
+      onSuccess: () => {
+        alert('Success');
+      },
+    });
+
   const handleSubmitFirstStepAuthForm = () => {
     return handleSubmitFirstStep(async (data) => {
       firstStepAuthFormMutation(data);
@@ -54,12 +79,29 @@ export const useAuthForm = () => {
 
   const handleSubmitSecondStepAuthForm = () => {
     return handleSubmitSecondStep(async (data) => {
-      console.log(data);
-      return null;
-    });
+      secondStepAuthFormMutation(data);
+    })();
   };
 
-  const isFormLoading = isFirstStepAuthFormMutationLoading;
+  const isFormLoading = isFirstStepAuthFormMutationLoading || isSecondStepAuthFormMutationLoading;
+
+  const currentFormContent = useMemo(() => {
+    return currentFormStep === 0 ? (
+      <AuthFormFirstStep
+        isFormLoading={isFormLoading}
+        handleSubmitForm={handleSubmitFirstStepAuthForm}
+        formMethods={methodsFirstStepAuthForm}
+      />
+    ) : (
+      <AuthFormSecondStep
+        phoneNumber={phoneNumber}
+        isFormLoading={isFormLoading}
+        handleSubmitForm={handleSubmitSecondStepAuthForm}
+        formMethods={methodsSecondStepAuthForm}
+        returnToFirstStepWithSavingPhone={returnToFirstStepWithSavingPhone}
+      />
+    );
+  }, [currentFormStep, phoneNumber]);
 
   return {
     methodsFirstStepAuthForm,
@@ -69,5 +111,8 @@ export const useAuthForm = () => {
     currentFormStep,
     setCurrentFormStep,
     isFormLoading,
+    phoneNumber,
+    returnToFirstStepWithSavingPhone,
+    currentFormContent,
   };
 };
